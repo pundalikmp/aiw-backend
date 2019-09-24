@@ -1,0 +1,23 @@
+{
+  "name": "aiw",
+  "version": "1.0.0",
+  "description": "AIW Earth Movers",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "Pundalik Pujari",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "fs-extra": "^8.1.0",
+    "mongodb": "^3.3.2",
+    "mongoose": "^5.6.11",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.3.0",
+    "nodemon": "^1.19.1"
+  }
+}
