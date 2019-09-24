@@ -8,11 +8,12 @@ const registerRoutes = require('./routes/registerRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
 const avatarRoutes = require('./routes/avatarRoutes');
 const bodyParser = require('body-parser');
-
+let status;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@aiw-pywpp.mongodb.net/aiw`;
 mongoose.connect(uri,  { useNewUrlParser: true })
     .then((data) => {
         console.log('Successfully connetced to DB', data.connections);
+    status = 'Connected';
     })
     .catch(error => {
         console.log(error);
@@ -34,5 +35,5 @@ app.use('/order', orderRoutes);
 app.use('/feedback', feedbackRoutes);
 app.use('/upload', avatarRoutes);
 app.get('/', (req, res) => {
-    res.status(200).json({message: 'Default Route'});
+    res.status(200).json({message: 'Default Route', status: status});
 });
