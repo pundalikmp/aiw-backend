@@ -5,6 +5,7 @@ const Avatar = require('../model/avatarModel');
 
 router.post('/', (req, res) => {
     let registerData;
+
     if (req.body != undefined) {
         const data = req.body;
         registerData = new Register({
@@ -18,21 +19,34 @@ router.post('/', (req, res) => {
         })
     }
     if (registerData != undefined) {
-    if (!req.body.mobile) {
-            registerData.save((err) => {
-                if (!err) {
-                    res.status(201).json({
-                        status: 'OK'
-                    })
+        if (!req.body.mobile) {
+            Register.find({ username: registerData.username }, (onError, onSuccess) => {
+                if (onError) {
+                    res.send(onError);
                 } else {
-                    res.status(505).json({
-                        status: 'NOK',
-                        error: err
-                    })
+                    if (onSuccess.length > 0) {
+                        res.send({
+                            message: 'username already present'
+                        })
+                    } else {
+                        registerData.save((err) => {
+                            if (!err) {
+                                res.status(201).json({
+                                    status: 'OK'
+                                })
+                            } else {
+                                res.status(505).json({
+                                    status: 'NOK',
+                                    error: err
+                                })
+                            }
+                        });
+                    }
                 }
-            });
+            })
+
         } else {
-    Register.updateOne({ username: req.body.username }, {
+            Register.updateOne({ username: req.body.username }, {
                 $set: {
                     mobile: req.body.mobile ? req.body.mobile : null,
                     address: req.body.address ? req.body.address : '',
@@ -62,7 +76,6 @@ router.get('/', (req, res) => {
 
     const username = req.query.username;
     let aPath;
-    // const username = req.params.username;
     if (username) {
         Register.find({ username: username }, (err, response) => {
             if (err) {
@@ -71,7 +84,7 @@ router.get('/', (req, res) => {
                 });
             } else if (response.length > 0) {
                 Avatar.find({ username: username }, (e, data) => {
-    
+
                     if (e) {
                         res.status(404).json({
                             error: e
@@ -92,7 +105,7 @@ router.get('/', (req, res) => {
             });
         });
     } else {
-        res.send({message: 'Please login'});
+        res.send({ message: 'Please login' });
     }
 
 });
