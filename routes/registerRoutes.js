@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
     }
     if (registerData != undefined) {
         if (!req.body.mobile) {
-            Register.find({ username: registerData.username }, (onError, onSuccess) => {
+            Register.find({ username: req.body.username }, (onError, onSuccess) => {
                 if (onError) {
                     res.send(onError);
                 } else {
@@ -31,13 +31,12 @@ router.post('/', (req, res) => {
                     } else {
                         registerData.save((err) => {
                             if (!err) {
-                                res.status(201).json({
-                                    status: 'OK'
+                                res.send({
+                                    message: 'OK'
                                 })
                             } else {
-                                res.status(505).json({
-                                    status: 'NOK',
-                                    error: err
+                                res.send({
+                                    message: 'NOK'
                                 })
                             }
                         });
