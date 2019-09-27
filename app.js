@@ -8,6 +8,7 @@ const registerRoutes = require('./routes/registerRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
 const avatarRoutes = require('./routes/avatarRoutes');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 let status;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@aiw-pywpp.mongodb.net/aiw`;
 mongoose.connect(uri,  { useNewUrlParser: true })
@@ -18,7 +19,7 @@ mongoose.connect(uri,  { useNewUrlParser: true })
     .catch(error => {
         console.log(error);
     })
-
+app.use(cors());
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
